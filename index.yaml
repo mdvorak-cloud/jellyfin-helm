@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  jellyfin:
+  - apiVersion: v2
+    appVersion: 10.8.0-beta1
+    created: "2022-04-02T08:52:17.485452499Z"
+    description: Jellyfin Media Server
+    digest: 191049b799a0a88e164508820ea3559e42031cb1f7c22db34679a7dfd2f797e3
+    name: jellyfin
+    type: application
+    urls:
+    - https://mdvorak-cloud.github.io/jellyfin-helm/jellyfin-1.0.0.tgz
+    version: 1.0.0
+generated: "2022-04-02T08:52:17.483533888Z"
