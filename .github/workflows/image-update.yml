@@ -35,7 +35,7 @@ jobs:
         id: current
         run: |
           echo "::set-output name=repository::$(yq e '.image.repository' values.yaml)"
-          echo "::set-output name=tag::$(yq e '.image.repository' values.yaml)"
+          echo "::set-output name=tag::$(yq e '.image.tag' values.yaml)"
 
       - name: Update
         run: |
