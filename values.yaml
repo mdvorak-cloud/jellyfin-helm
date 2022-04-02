@@ -4,7 +4,7 @@
 replicaCount: 1
 image:
   repository: jellyfin/jellyfin
-  tag: 10.8.0-alpha1
+  tag: 10.8.0-beta1
   pullPolicy: IfNotPresent
 nameOverride: ""
 fullnameOverride: ""
