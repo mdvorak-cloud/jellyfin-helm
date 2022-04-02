@@ -6,6 +6,7 @@ on:
       - main
       - dependabot/**
     paths:
+      - .github/workflows/image-update.yml
       - Dockerfile
       - values.yaml
       - Chart.yaml
@@ -46,7 +47,7 @@ jobs:
           TAG: ${{ steps.latest.outputs.tag }}
 
       - name: Create Pull Request
-        if: ${{ github.ref_protected == 'true' }}
+        if: ${{ github.ref_protected }}
         uses: peter-evans/create-pull-request@v4
         with:
           title: "fix(chart): bump ${{ steps.latest.outputs.repository }} from ${{ steps.outputs.current.tag }} to ${{ steps.latest.outputs.tag }}"
@@ -57,7 +58,7 @@ jobs:
           labels: bot,dependencies
 
       - name: Commit
-        if: ${{ github.ref_protected != 'true' }}
+        if: ${{ github.ref_protected }}
         run: |
           git config user.email "github-action@users.noreply.github.com"
           git config user.name "$GITHUB_ACTOR"
