@@ -50,8 +50,8 @@ jobs:
         if: ${{ github.ref_protected }}
         uses: peter-evans/create-pull-request@v4
         with:
-          title: "fix(chart): bump ${{ steps.latest.outputs.repository }} from ${{ steps.outputs.current.tag }} to ${{ steps.latest.outputs.tag }}"
-          commit-message: "fix(chart): bump ${{ steps.latest.outputs.repository }} from ${{ steps.outputs.current.tag }} to ${{ steps.latest.outputs.tag }}"
+          title: "fix(chart): bump ${{ steps.latest.outputs.repository }} from ${{ steps.current.outputs.tag }} to ${{ steps.latest.outputs.tag }}"
+          commit-message: "fix(chart): bump ${{ steps.latest.outputs.repository }} from ${{ steps.current.outputs.tag }} to ${{ steps.latest.outputs.tag }}"
           body: "Update Helm Chart from dummy Dockerfile"
           branch: image-update--${{ github.ref_name }}
           delete-branch: true
@@ -64,5 +64,5 @@ jobs:
           git config user.name "$GITHUB_ACTOR"
           
           git add Chart.yaml values.yaml
-          git commit -m 'fix(chart): bump ${{ steps.latest.outputs.repository }} from ${{ steps.outputs.current.tag }} to ${{ steps.latest.outputs.tag }}'
+          git commit -m 'fix(chart): bump ${{ steps.latest.outputs.repository }} from ${{ steps.current.outputs.tag }} to ${{ steps.latest.outputs.tag }}'
           git push
