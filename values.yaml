@@ -116,3 +116,8 @@ extraVolumeMounts: []
   #- mountPath: /dev/dri/renderD129
   #  name: renderD129
 
+env: [ ]
+#  - name: TZ
+#    value: Europe/London
+#  - name: JELLYFIN_PublishedServerUrl
+#    value: my-server.url
