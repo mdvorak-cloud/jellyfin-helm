@@ -9,6 +9,7 @@ on:
       - Dockerfile
       - values.yaml
       - Chart.yaml
+  workflow_dispatch:
 
 permissions:
   contents: write
