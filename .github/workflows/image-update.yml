@@ -1,0 +1,63 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+      - dependabot/**
+    paths:
+      - Dockerfile
+      - values.yaml
+      - Chart.yaml
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Get latest image
+        id: latest
+        run: |
+          IMAGE=$(cat Dockerfile | grep FROM | cut -f2 -d' ')
+          
+          echo "::set-output name=repository::$(cut -f1 -d':' <<< $IMAGE)"
+          echo "::set-output name=tag::$(cut -f2 -d':' <<< $IMAGE)"
+
+      - name: Get current image
+        id: current
+        run: |
+          echo "::set-output name=repository::$(yq e '.image.repository' values.yaml)"
+          echo "::set-output name=tag::$(yq e '.image.repository' values.yaml)"
+
+      - name: Update
+        run: |
+          yq -i '.image.repository = strenv(REPOSITORY)' values.yaml
+          yq -i '.image.tag = strenv(TAG)' values.yaml
+          yq -i '.appVersion = strenv(TAG)' Chart.yaml
+        env:
+          REPOSITORY: ${{ steps.latest.outputs.repository }}
+          TAG: ${{ steps.latest.outputs.tag }}
+
+      - name: Create Pull Request
+        if: ${{ github.ref_protected == 'true' }}
+        uses: peter-evans/create-pull-request@v4
+        with:
+          title: "fix(chart): bump ${{ steps.latest.outputs.repository }} from ${{ steps.outputs.current.tag }} to ${{ steps.latest.outputs.tag }}"
+          commit-message: "fix(chart): bump ${{ steps.latest.outputs.repository }} from ${{ steps.outputs.current.tag }} to ${{ steps.latest.outputs.tag }}"
+          body: "Update Helm Chart from dummy Dockerfile"
+          branch: image-update--${{ github.ref_name }}
+          delete-branch: true
+          labels: bot,dependencies
+
+      - name: Commit
+        if: ${{ github.ref_protected != 'true' }}
+        run: |
+          git add Chart.yaml values.yaml
+          git commit -m 'fix(chart): bump ${{ steps.latest.outputs.repository }} from ${{ steps.outputs.current.tag }} to ${{ steps.latest.outputs.tag }}'
+          git push
