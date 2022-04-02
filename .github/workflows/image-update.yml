@@ -58,6 +58,9 @@ jobs:
       - name: Commit
         if: ${{ github.ref_protected != 'true' }}
         run: |
+          git config user.email "github-action@users.noreply.github.com"
+          git config user.name "$GITHUB_ACTOR"
+          
           git add Chart.yaml values.yaml
           git commit -m 'fix(chart): bump ${{ steps.latest.outputs.repository }} from ${{ steps.outputs.current.tag }} to ${{ steps.latest.outputs.tag }}'
           git push
