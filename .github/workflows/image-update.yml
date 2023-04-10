@@ -48,7 +48,7 @@ jobs:
 
       - name: Create Pull Request
         if: ${{ github.ref_protected }}
-        uses: peter-evans/create-pull-request@v4
+        uses: peter-evans/create-pull-request@v5
         with:
           title: "fix(chart): bump ${{ steps.latest.outputs.repository }} from ${{ steps.current.outputs.tag }} to ${{ steps.latest.outputs.tag }}"
           commit-message: "fix(chart): bump ${{ steps.latest.outputs.repository }} from ${{ steps.current.outputs.tag }} to ${{ steps.latest.outputs.tag }}"
